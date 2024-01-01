@@ -7,6 +7,7 @@ RUN apt-get update \
     cron \
      vim \
     sqlite3 \
+    libsqlite3-dev \
     locales coreutils apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev;
 
 RUN echo "pt_BR.UTF-8 UTF-8" > /etc/locale.gen && \
