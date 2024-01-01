@@ -1,6 +1,6 @@
 FROM php:8.3-apache
 
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+RUN echo "ServerName 192.168.1.214" >> /etc/apache2/apache2.conf
 
 RUN apt-get update \
     && apt-get install -qq -y --no-install-recommends \
