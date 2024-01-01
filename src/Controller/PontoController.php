@@ -32,7 +32,6 @@ class PontoController extends AbstractController
 
         $params['agora']=$date;
         $params['tempoTotal']=$repository->tempoTotal($params['registros'],$date->setTime($date->format('H'), $date->format('i')));
-        dump($params);
         return $this->render('ponto/index.html.twig', $params);
     }
 }
