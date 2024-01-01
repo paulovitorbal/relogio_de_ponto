@@ -5,7 +5,7 @@ services:
     build: docker/php
     container_name: relogio_de_ponto
     ports:
-      - "8741:8124"
+      - "8741:80"
     volumes:
       - ./docker/php/vhosts:/etc/apache2/sites-enabled
       - ./:/var/www
