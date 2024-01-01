@@ -15,7 +15,7 @@ RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
    mv composer.phar /usr/local/bin/composer
 
 RUN docker-php-ext-configure intl
-RUN docker-php-ext-install pdo pdo_mysql mysqli gd opcache intl zip calendar dom mbstring zip gd xsl pdo_sqlite pdo_sqlite3   && a2enmod rewrite
+RUN docker-php-ext-install pdo pdo_mysql mysqli gd opcache intl zip calendar dom mbstring zip gd xsl pdo_sqlite sqlite3   && a2enmod rewrite
 RUN pecl install apcu && docker-php-ext-enable apcu
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
