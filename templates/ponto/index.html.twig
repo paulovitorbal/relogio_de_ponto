@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ponto eletrônico{% endblock %}
+
+{% block body %}
+    <style>
+        .notification {
+            text-align: center;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 15px;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #timeDisplay {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #registerButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        dl {
+            margin-bottom: 20px;
+        }
+
+        dt, dd {
+            display: inline-block;
+            margin: 0;
+        }
+
+        dt {
+            font-weight: bold;
+        }
+
+        /* Optional: Add some spacing between dt and dd */
+        dt + dd {
+            margin-left: 10px;
+        }
+    </style>
+    <h1>Ponto eletrônico</h1>
+    {% if mensagem %}
+        <div class="notification" id="notification">{{ mensagem }}</div>
+    {% endif %}
+    <div id="timeDisplay"><span id="currentDateTime"></span></div>
+    <div id="timeDisplay">Tempo total (até {{ agora.format('H:i') }}): {{ tempoTotal|minutos }}</span></div>
+    <form method="POST">
+        <button id="registerButton" type="submit">Registrar Entrada</button>
+    </form>
+    <br />
+    <div>Horários registrados hoje:</div>
+    <dl>
+        {% for registro in registros %}
+            <dt>{{ cycle(['Entrada', 'Saída'], loop.index0) }}:</dt>
+            <dd>{{ registro.dataRegistro.format('H:i') }}</dd>
+        {% endfor %}
+    </dl>
+    <script>
+        function updateCurrentDateTime() {
+            var currentDateTimeElement = document.getElementById("currentDateTime");
+            var currentDateTime = new Date();
+
+            var day = currentDateTime.getDate();
+            var month = currentDateTime.getMonth() + 1; // Months are zero-based
+            var year = currentDateTime.getFullYear();
+
+            var hours = currentDateTime.getHours();
+            var minutes = currentDateTime.getMinutes();
+
+            var formattedDate = (day < 10 ? "0" : "") + day + "/" + (month < 10 ? "0" : "") + month + "/" + year;
+            var formattedTime = hours + ":" + (minutes < 10 ? "0" : "") + minutes;
+
+            currentDateTimeElement.innerHTML = formattedDate + " " + formattedTime;
+        }
+        function sumirNotificacao(){
+            document.getElementById('notification').style.display="none";
+        }
+        // Update time initially and set interval to update every second
+        updateCurrentDateTime();
+        setInterval(updateCurrentDateTime, 1000);
+        setInterval(sumirNotificacao, 5000);
+    </script>
+
+{% endblock %}
