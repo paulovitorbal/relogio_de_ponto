@@ -47,6 +47,7 @@
 <div>
     <table>
         <tbody>
+
         {% for indice, dia in dias%}
             <tr>
                 <td>{{ indice|slice(6,2) }}/{{ indice|slice(4,2) }}/{{ indice|slice(0,4) }}</td>
@@ -54,15 +55,14 @@
                     <td>
                         {{ registro.dataRegistro.format('H:i') }}
                         <!-- Delete Link -->
-                        <a href="#remove?id={{ registro.id }}" class="delete-icon">
+                        <a href="#?id={{ registro.id }}" class="delete-icon">
                             <i class="fas fa-trash-alt"></i> <!-- Font Awesome delete icon -->
                         </a>
 
                         <!-- Update Link -->
-                        <a href="#edit?id={{ registro.id }}" class="update-icon">
+                        <a href="#?id={{ registro.id }}" class="update-icon">
                             <i class="fas fa-edit"></i> <!-- Font Awesome edit icon -->
                         </a>
-                    </td>
                     </td>
                 {% endfor %}
                 <td>Total do dia:</td>
