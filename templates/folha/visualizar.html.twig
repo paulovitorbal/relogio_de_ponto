@@ -13,7 +13,6 @@
         }
 
         table {
-            width: 300px;
             border-collapse: collapse;
             margin: 20px auto;
         }
@@ -53,7 +52,7 @@
                 <td>{{ indice|slice(6,2) }}/{{ indice|slice(4,2) }}/{{ indice|slice(0,4) }}</td>
                 {% for registro in dia.valores %}
                     <td>
-                        {{ registro.dataRegistro.format('d/M/Y H:i') }}
+                        {{ registro.dataRegistro.format('H:i') }}
                         <!-- Delete Link -->
                         <a href="#remove?id={{ registro.id }}" class="delete-icon">
                             <i class="fas fa-trash-alt"></i> <!-- Font Awesome delete icon -->
