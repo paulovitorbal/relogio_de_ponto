@@ -24,4 +24,7 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 RUN a2enmod rewrite
 RUN chmod +x /usr/local/bin/install-php-extensions && sync
 
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+RUN echo "date.timezone = America/Sao_Paulo" >> "$PHP_INI_DIR/php.ini"
+
 WORKDIR /var/www
