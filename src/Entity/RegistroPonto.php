@@ -26,6 +26,13 @@ class RegistroPonto
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $processado_em = null;
 
+
+    public function setId(?int $id): static
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

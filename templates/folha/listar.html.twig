@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listar folhas de ponto{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        table {
+            width: 300px;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Even row styling */
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Odd row styling */
+        tr:nth-child(odd) {
+            background-color: #fff;
+        }
+    </style>
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th>Mês</th>
+            <th>Ano</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for folha in folhas %}
+        <tr>
+            <td>{{ folha|slice(4,2) }}</td>
+            <td>{{ folha|slice(0,4) }}</td>
+            <td><a href="{{ path('mostrar_folha', {ano:folha|slice(0,4), mes:folha|slice(4,2)}) }}">Visualizar</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Visualizar folha de ponto {{ mes }}/{{ ano }}{% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        table {
+            width: 300px;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Even row styling */
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Odd row styling */
+        tr:nth-child(odd) {
+            background-color: #fff;
+        }
+        /* Style for the delete icon */
+        .delete-icon {
+            color: #ff0000; /* Red color for delete icon */
+            cursor: pointer;
+        }
+
+        /* Style for the update icon */
+        .update-icon {
+            color: #008000; /* Green color for update icon */
+            cursor: pointer;
+        }
+    </style>
+<div>
+    <table>
+        <tbody>
+        {% for indice, dia in dias%}
+            <tr>
+                <td>{{ indice|slice(6,2) }}/{{ indice|slice(4,2) }}/{{ indice|slice(0,4) }}</td>
+                {% for registro in dia.valores %}
+                    <td>
+                        {{ registro.dataRegistro.format('d/M/Y H:i') }}
+                        <!-- Delete Link -->
+                        <a href="#remove?id={{ registro.id }}" class="delete-icon">
+                            <i class="fas fa-trash-alt"></i> <!-- Font Awesome delete icon -->
+                        </a>
+
+                        <!-- Update Link -->
+                        <a href="#edit?id={{ registro.id }}" class="update-icon">
+                            <i class="fas fa-edit"></i> <!-- Font Awesome edit icon -->
+                        </a>
+                    </td>
+                    </td>
+                {% endfor %}
+                <td>Total do dia:</td>
+                <td>{{ dia.total|minutos }}</td>
+            </tr>
+        {%endfor %}
+
+        </tbody>
+
+    </table>
+</div>
+{% endblock %}

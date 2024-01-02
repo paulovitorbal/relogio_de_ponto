@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\DataObject\LinhaFolhaPonto;
 use App\Entity\RegistroPonto;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,6 +40,54 @@ class RegistroPontoRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    /**
+     * @return RegistroPonto[] Returns an array of RegistroPonto objects
+     */
+    public function visualizarFolhaPontoMesAno(int $funcionario, int $ano, int $mes): array
+    {
+        $fromDate =  \DateTimeImmutable::createFromFormat("Y-m-d H:i:s", $ano.'-'.$mes.'-01 00:00:00');
+        $toDate = $fromDate->modify('+1 month');
+        $rows =  $this->createQueryBuilder('r')
+            ->select('r.data_registro', 'r.id')
+            ->andWhere('r.funcionario = :val')->setParameter('val', $funcionario)
+            ->andWhere('r.data_registro >= :fromDate')->setParameter('fromDate', $fromDate)
+            ->andWhere('r.data_registro < :toDate')->setParameter('toDate', $toDate)
+            ->orderBy('r.data_registro', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+        $datas = [];
+        foreach($rows as $row){
+            $data = $row['data_registro'];
+            $registro = new RegistroPonto();
+            $registro->setDataRegistro($data)->setId($row['id']);
+            $datas[$data->format('Ymd')][] = $registro;
+        }
+        $return = [];
+        foreach($datas as $key =>$data){
+            $total = $this->tempoTotal($data);
+            $return[$key]=new LinhaFolhaPonto($data, $total);
+        }
+        return $return;
+
+    }
+    /**
+     * @return RegistroPonto[] Returns an array of RegistroPonto objects
+     */
+    public function listMeses(): array
+    {
+        $rows = $this->createQueryBuilder('r')
+            ->select('r.data_registro')
+            ->orderBy('r.data_registro', 'desc')
+            ->getQuery()
+            ->getSingleColumnResult()
+        ;
+        $result = array_map(static function($e){
+            $tmp = new \DateTimeImmutable($e);
+            return $tmp->format('Ym');
+        }, $rows);
+        return array_unique($result);
+    }
 
     /**
      * @param RegistroPonto[] $registros
@@ -58,7 +107,8 @@ class RegistroPontoRepository extends ServiceEntityRepository
             if ($maior==null && $agora != null){
 
                 $tempoTotal += $agora->getTimestamp() - $menor->getDataRegistro()->getTimestamp();
-            }else{
+            }
+            if ($maior != null){
                 $tempoTotal += $maior->getDataRegistro()->getTimestamp() - $menor->getDataRegistro()->getTimestamp();
             }
         }
