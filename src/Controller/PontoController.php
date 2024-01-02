@@ -26,7 +26,12 @@ class PontoController extends AbstractController
 
             $entityManager->persist($registro);
             $entityManager->flush();
-            $params['mensagem']="Sucesso!";
+            $this->addFlash(
+                'notice',
+                'Registro salvo!'
+            );
+            return $this->redirectToRoute('ponto_home');
+
         }
         $params['registros']=$repository->findByFuncionario(1);
 

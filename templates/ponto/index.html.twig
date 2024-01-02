@@ -47,9 +47,14 @@
         }
     </style>
     <h1>Ponto eletrônico</h1>
-    {% if mensagem %}
-        <div class="notification" id="notification">{{ mensagem }}</div>
-    {% endif %}
+    {# read and display all flash messages #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }} notification" id="notification">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
     <div id="timeDisplay"><span id="currentDateTime"></span></div>
     <div id="timeDisplay">Tempo total (até {{ agora.format('H:i') }}): {{ tempoTotal|minutos }}</span></div>
     <form method="POST">
