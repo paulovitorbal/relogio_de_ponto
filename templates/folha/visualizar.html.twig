@@ -73,5 +73,11 @@
         </tbody>
 
     </table>
+    <div>
+        <form method="POST">
+            <input type="datetime-local" value="{{ "now"|date("Y-m-d\\TH:i") }}" name="data" />
+            <input type="submit" value="Adicionar registro">
+        </form>
+    </div>
 </div>
 {% endblock %}
