@@ -37,7 +37,7 @@ class PontoController extends AbstractController
         $params['registros']=$repository->findByFuncionario(1);
 
         $params['agora']=$date;
-        $params['tempoTotal']=$repository->tempoTotal($params['registros'],$date->setTime($date->format('H'), $date->format('i')));
+        $params['tempoTotalDia']=$repository->tempoTotal($params['registros'],$date->setTime($date->format('H'), $date->format('i')));
 
         $ano = date('Y');
         $mes = date('m');

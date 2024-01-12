@@ -77,7 +77,7 @@
         {% endfor %}
     {% endfor %}
     <div id="timeDisplay"><span id="currentDateTime"></span></div>
-    <div id="timeDisplay">Tempo total (até {{ agora.format('H:i') }}): {{ tempoTotal|minutos }}</span></div>
+    <div id="timeDisplay">Tempo total (até {{ agora.format('H:i') }}): {{ tempoTotalDia|minutos }}</span></div>
     <form method="POST">
         <button id="registerButton" type="submit">Registrar Entrada</button>
     </form>
