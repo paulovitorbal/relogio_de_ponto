@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DataObject\LinhaFolhaPonto;
 use App\Entity\RegistroPonto;
 use App\Entity\TipoRegistro;
 use App\Repository\RegistroPontoRepository;
@@ -37,10 +38,18 @@ class FolhaController extends AbstractController
                 'Registro salvo!'
             );
         }
+        $dias = $repository->visualizarFolhaPontoMesAno(1, $ano, $mes);
+        $tempoTotal = array_reduce($dias, static function (int $total, LinhaFolhaPonto $a) {
+            if (count($a->getValores())%2 == 1){
+                return $total;
+            }
+            return ($total + $a->getTotal()-(8*60));
+        }, 0);
         return $this->render('folha/visualizar.html.twig', [
             'mes'=>$mes,
             'ano'=>$ano,
-            'dias'=>$repository->visualizarFolhaPontoMesAno(1, $ano, $mes)
+            'dias'=> $dias,
+            'tempoTotal'=>$tempoTotal
         ]);
     }
 }

@@ -47,11 +47,15 @@
 <div>
     <table>
         <tbody>
-
+        {% set sum = 0 %}
         {% for indice, dia in dias%}
             <tr>
-                <td>{{ indice|slice(6,2) }}/{{ indice|slice(4,2) }}/{{ indice|slice(0,4) }}</td>
+                <td>
+                    <div>{{ dia.data|date("d/m/Y") }}</div>
+                    <div>({{ dia.data|date("l")| trans({}, 'messages', 'pt_BR') }})</div>
+                </td>
                 {% for registro in dia.valores %}
+
                     <td>
                         {{ registro.dataRegistro.format('H:i') }}
                         <!-- Delete Link -->
@@ -65,14 +69,23 @@
                         </a>
                     </td>
                 {% endfor %}
-                <td>Total do dia:</td>
-                <td>{{ dia.total|minutos }}</td>
+
+
+                {% if dia.valores|  length %2 == 0 %}
+                    <td>Total do dia:</td>
+                    <td>{{ dia.total|minutos }} ({{ (dia.total-(8*60))|minutos }})</td>
+                    {% set sum = sum + dia.total - (8*60) %}
+                    <td>Total acumulado:</td>
+                    <td>{{ sum|minutos }}</td>
+                {% endif %}
+
             </tr>
         {%endfor %}
 
         </tbody>
 
     </table>
+    <div><h3>Tempo total acumulado:{{ tempoTotal|minutos }}</h3></div>
     <div>
         <form method="POST">
             <input type="datetime-local" value="{{ "now"|date("Y-m-d\\TH:i") }}" name="data" />

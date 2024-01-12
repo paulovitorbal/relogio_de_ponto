@@ -13,14 +13,19 @@ class MinutosExtension extends AbstractExtension
     {
         return [
             new TwigFilter('minutos', static function(int $minutes) {
-                if (!is_numeric($minutes) || $minutes < 0) {
-                    throw new \RuntimeException("Quantidade de minutos inválido!");
+                if (!is_numeric($minutes)) {
+                    throw new \RuntimeException("Quantidade de minutos inválido!".$minutes);
                 }
-
+                $negative = $minutes<0;
+                if ($negative){
+                    $minutes *= -1;
+                }
                 $hours = floor($minutes / 60);
                 $remainingMinutes = $minutes % 60;
-
-                return sprintf('%02d:%02d', $hours, $remainingMinutes);
+                if($minutes<0){
+                    dump($minutes, $hours, $minutes);
+                }
+                return sprintf('%s%02d:%02d', $negative?'-': '', $hours, $remainingMinutes);
             }),
         ];
     }

@@ -4,6 +4,27 @@
 
 {% block body %}
     <style>
+
+        table {
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Even row styling */
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Odd row styling */
+        tr:nth-child(odd) {
+            background-color: #fff;
+        }
         .notification {
             text-align: center;
             background-color: #4CAF50;
@@ -93,5 +114,36 @@
         setInterval(updateCurrentDateTime, 1000);
         setInterval(sumirNotificacao, 5000);
     </script>
+    <table>
+        <tbody>
+        {% set sum = 0 %}
+        {% for indice, dia in dias%}
+            <tr>
+                <td>
+                    <div>{{ dia.data|date("d/m/Y") }}</div>
+                    <div>({{ dia.data|date("l")| trans({}, 'messages', 'pt_BR') }})</div>
+                </td>
+                {% for registro in dia.valores %}
 
+                    <td>
+                        {{ registro.dataRegistro.format('H:i') }}
+                    </td>
+                {% endfor %}
+
+
+                {% if dia.valores|  length %2 == 0 %}
+                    <td>Total do dia:</td>
+                    <td>{{ dia.total|minutos }} ({{ (dia.total-(8*60))|minutos }})</td>
+                    {% set sum = sum + dia.total - (8*60) %}
+                    <td>Total acumulado:</td>
+                    <td>{{ sum|minutos }}</td>
+                {% endif %}
+
+            </tr>
+        {%endfor %}
+
+        </tbody>
+
+    </table>
+    <div><h3>Tempo total acumulado:{{ tempoTotal|minutos }}</h3></div>
 {% endblock %}

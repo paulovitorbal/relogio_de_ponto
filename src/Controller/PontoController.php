@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DataObject\LinhaFolhaPonto;
 use App\Entity\RegistroPonto;
 use App\Entity\TipoRegistro;
 use App\Repository\RegistroPontoRepository;
@@ -37,6 +38,22 @@ class PontoController extends AbstractController
 
         $params['agora']=$date;
         $params['tempoTotal']=$repository->tempoTotal($params['registros'],$date->setTime($date->format('H'), $date->format('i')));
+
+        $ano = date('Y');
+        $mes = date('m');
+        $dias = $repository->visualizarFolhaPontoMesAno(1, $ano, $mes);
+        $tempoTotal = array_reduce($dias, static function (int $total, LinhaFolhaPonto $a) {
+            if (count($a->getValores())%2 == 1){
+                return $total;
+            }
+            return ($total + $a->getTotal()-(8*60));
+        }, 0);
+        $params = $params +  [
+            'mes'=>$mes,
+            'ano'=>$ano,
+            'dias'=> $dias,
+            'tempoTotal'=>$tempoTotal
+        ];
         return $this->render('ponto/index.html.twig', $params);
     }
 }
