@@ -15,7 +15,7 @@ class RegistroPonto
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private ?\DateTimeInterface $data_registro = null;
+    private ?\DateTimeImmutable $data_registro = null;
 
     #[ORM\Column(type: Types::STRING,length: 25, enumType: TipoRegistro::class)]
     private ?TipoRegistro $tipo = null;
@@ -23,8 +23,8 @@ class RegistroPonto
     #[ORM\Column]
     private ?int $funcionario = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $processado_em = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $processado_em = null;
 
 
     public function setId(?int $id): static
@@ -38,12 +38,12 @@ class RegistroPonto
         return $this->id;
     }
 
-    public function getDataRegistro(): ?\DateTimeInterface
+    public function getDataRegistro(): ?\DateTimeImmutable
     {
         return $this->data_registro;
     }
 
-    public function setDataRegistro(\DateTimeInterface $data_registro): static
+    public function setDataRegistro(\DateTimeImmutable $data_registro): static
     {
         $this->data_registro = $data_registro;
 
@@ -74,12 +74,12 @@ class RegistroPonto
         return $this;
     }
 
-    public function getProcessadoEm(): ?\DateTimeInterface
+    public function getProcessadoEm(): ?\DateTimeImmutable
     {
         return $this->processado_em;
     }
 
-    public function setProcessadoEm(?\DateTimeInterface $processado_em): static
+    public function setProcessadoEm(?\DateTimeImmutable $processado_em): static
     {
         $this->processado_em = $processado_em;
 

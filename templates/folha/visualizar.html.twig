@@ -77,6 +77,9 @@
                     {% set sum = sum + dia.total - (8*60) %}
                     <td>Total acumulado:</td>
                     <td>{{ sum|minutos }}</td>
+                {% else %}
+                    <td>Tempo estimado de saída</td>
+                    <td>{{ dia.valores|tempoRestante }}</td>
                 {% endif %}
 
             </tr>

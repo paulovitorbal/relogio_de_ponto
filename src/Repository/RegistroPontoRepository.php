@@ -6,6 +6,7 @@ use App\DataObject\LinhaFolhaPonto;
 use App\Entity\RegistroPonto;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Webmozart\Assert\Assert;
 
 /**
  * @extends ServiceEntityRepository<RegistroPonto>
@@ -93,7 +94,8 @@ class RegistroPontoRepository extends ServiceEntityRepository
      * @param RegistroPonto[] $registros
      * @return int
      */
-    public function tempoTotal(array $registros, \DateTimeInterface $agora = null): int{
+    public static function tempoTotal(array $registros, \DateTimeInterface $agora = null): int{
+        Assert::allIsInstanceOf($registros, RegistroPonto::class);
         usort($registros, static function(RegistroPonto $a, RegistroPonto $b){
             return $a->getDataRegistro()->getTimestamp() - $b->getDataRegistro()->getTimestamp();
         });
