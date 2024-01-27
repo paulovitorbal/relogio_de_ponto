@@ -59,13 +59,8 @@
                     <td>
                         {{ registro.dataRegistro.format('H:i') }}
                         <!-- Delete Link -->
-                        <a href="#?id={{ registro.id }}" class="delete-icon">
+                        <a href="{{ url('excluir_registro_ponto', {id: registro.id}) }}" class="delete-icon">
                             <i class="fas fa-trash-alt"></i> <!-- Font Awesome delete icon -->
-                        </a>
-
-                        <!-- Update Link -->
-                        <a href="#?id={{ registro.id }}" class="update-icon">
-                            <i class="fas fa-edit"></i> <!-- Font Awesome edit icon -->
                         </a>
                     </td>
                 {% endfor %}

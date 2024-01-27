@@ -21,6 +21,16 @@ class FolhaController extends AbstractController
             'folhas'=>$repository->listMeses()
         ]);
     }
+    #[Route('/folha/excluir/{id}', name: 'excluir_registro_ponto')]
+    public function excluirRegistroPonto(EntityManagerInterface $entityManager, RegistroPonto $id): Response
+    {
+        $entityManager->remove($id);
+        $entityManager->flush();
+        return $this->redirectToRoute('mostrar_folha', [
+            'ano'=>$id->getDataRegistro()->format('Y'),
+            'mes'=>$id->getDataRegistro()->format('m')
+        ]);
+    }
     #[Route('/folha/{ano}/{mes}', name: 'mostrar_folha')]
     public function anoMes(RegistroPontoRepository $repository, int $ano, int $mes, Request $request, EntityManagerInterface $entityManager): Response
     {
