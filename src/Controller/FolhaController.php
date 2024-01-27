@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\DataObject\LinhaFolhaPonto;
 use App\Entity\RegistroPonto;
 use App\Entity\TipoRegistro;
+use App\Repository\FuncionarioRepository;
 use App\Repository\RegistroPontoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,7 +33,7 @@ class FolhaController extends AbstractController
         ]);
     }
     #[Route('/folha/{ano}/{mes}', name: 'mostrar_folha')]
-    public function anoMes(RegistroPontoRepository $repository, int $ano, int $mes, Request $request, EntityManagerInterface $entityManager): Response
+    public function anoMes(RegistroPontoRepository $repository, int $ano, int $mes, Request $request, EntityManagerInterface $entityManager, FuncionarioRepository $funcionarioRepository): Response
     {
         if ($request->isMethod(Request::METHOD_POST)){
 
@@ -59,7 +60,8 @@ class FolhaController extends AbstractController
             'mes'=>$mes,
             'ano'=>$ano,
             'dias'=> $dias,
-            'tempoTotal'=>$tempoTotal
+            'tempoTotal'=>$tempoTotal,
+            'funcionario'=>$funcionarioRepository->find(1)
         ]);
     }
 }
