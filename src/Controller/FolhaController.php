@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\DataObject\LinhaFolhaPonto;
+use App\Empregador;
 use App\Entity\RegistroPonto;
 use App\Entity\TipoRegistro;
 use App\Repository\FuncionarioRepository;
@@ -33,7 +34,15 @@ class FolhaController extends AbstractController
         ]);
     }
     #[Route('/folha/{ano}/{mes}', name: 'mostrar_folha')]
-    public function anoMes(RegistroPontoRepository $repository, int $ano, int $mes, Request $request, EntityManagerInterface $entityManager, FuncionarioRepository $funcionarioRepository): Response
+    public function anoMes(
+        RegistroPontoRepository $repository,
+        int $ano,
+        int $mes,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        FuncionarioRepository $funcionarioRepository,
+        Empregador $empregador
+    ): Response
     {
         if ($request->isMethod(Request::METHOD_POST)){
 
@@ -61,7 +70,8 @@ class FolhaController extends AbstractController
             'ano'=>$ano,
             'dias'=> $dias,
             'tempoTotal'=>$tempoTotal,
-            'funcionario'=>$funcionarioRepository->find(1)
+            'funcionario'=>$funcionarioRepository->find(1),
+            'empregador'=>$empregador
         ]);
     }
 }
