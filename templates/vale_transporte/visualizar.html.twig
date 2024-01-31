@@ -41,8 +41,7 @@
     {%  set valorTotal = (vale_transporte.custoDiarioPassagem/100) * vale_transporte.quantidadeDias %}
     <p>
         Eu, <span class="negrito">{{ funcionario.nome }}</span>, declaro ter recebido do Sr(a), <span class="negrito">{{ empregador.nome }}</span>,
-        o valor de <span class="negrito">R$ {{ valorTotal|number_format(2, ',','.') }} ({{ valorTotal|numeroPorExtenso }})</span>. Considerando-se o valor di&aacute;
-        rio de passagem de
+        o valor de <span class="negrito">R$ {{ valorTotal|number_format(2, ',','.') }} ({{ valorTotal|numeroPorExtenso }})</span>. Considerando-se o valor di&aacute;rio de passagem de
         <span class="negrito">R$ {{ (vale_transporte.custoDiarioPassagem/100)|number_format(2, ',','.') }} ({{ (vale_transporte.custoDiarioPassagem/100)|numeroPorExtenso }})</span> e <span class="negrito">
             {{ vale_transporte.quantidadeDias }} dias a serem trabalhados</span>. Referentes ao m&ecirc;s de <span class="negrito">{{ attribute(meses, vale_transporte.mes) }} de {{ vale_transporte.ano }}.
         </span>
