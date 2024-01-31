@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vale transporte{% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        /* Style for the delete icon */
+        .delete-icon {
+            color: #ff0000; /* Red color for delete icon */
+            cursor: pointer;
+        }
+        ul{
+            list-style-type: none;
+        }
+    </style>
+    <ul>
+        {% for vale in vales_emitidos %}
+            <li>
+                <a href="{{ url('vale_transporte_ver', {id: vale.id}) }}">{{ vale.mes }}/{{ vale.ano }}</a>
+
+                <!-- Delete Link -->
+                <a href="{{ url('excluir_vale_transporte', {id: vale.id}) }}" class="delete-icon no-print">
+                    <i class="fas fa-trash-alt"></i> <!-- Font Awesome delete icon -->
+                </a>
+            </li>
+
+        {% endfor %}
+    </ul>
+
+
+    <form method="POST">
+        <div>
+            <label for="start">Mês:</label>
+
+            <input type="month"  name="mesAno" />
+
+        </div>
+        <div>
+            <label for="start">Valor diário:</label>
+
+            <input type="number"  name="valor" step="any" value="{{ funcionario.custoDiarioPassagem / 100}}"/>
+        </div>
+        <div>
+            <label for="start">Quantidade de dias trabalhados:</label>
+
+            <input type="number"  name="quantidadeDias" />
+        </div>
+
+        <div>
+            <input type="submit" value="Enviar">
+        </div>
+
+
+
+
+    </form>
+{% endblock %}

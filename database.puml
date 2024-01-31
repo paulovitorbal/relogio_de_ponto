@@ -1,0 +1,31 @@
+@startuml
+hide empty members
+hide circle
+!theme blueprint
+skinparam linetype ortho
+
+entity Funcionario{
+    <&key> id
+    nome
+    custoDiarioPassagem
+}
+entity RegistroPonto{
+    <&key> id
+    dataRegistro
+    funcionario
+}
+entity ValeTransporte{
+    <&key> id
+    funcionario
+    quantidadeDias
+    custoDiarioPassagem
+    Mes
+    Ano
+    DataEmissao
+}
+
+RegistroPonto }o--|| Funcionario
+ValeTransporte }o--|| Funcionario
+
+
+@enduml

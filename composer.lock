@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a32b70227cceba0ea7f3a794a635072c",
+    "content-hash": "097c8daaf26be7581ffd244d17ff4263",
     "packages": [
         {
             "name": "composer/semver",
@@ -7675,6 +7675,54 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "wgenial/numeroporextenso",
+            "version": "v3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wgenial/numeroporextenso-php.git",
+                "reference": "8710532534381a11c940d196b02fe7e56c4beaad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wgenial/numeroporextenso-php/zipball/8710532534381a11c940d196b02fe7e56c4beaad",
+                "reference": "8710532534381a11c940d196b02fe7e56c4beaad",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "8.5.x-dev"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "WGenial\\NumeroPorExtenso\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Giovani Generali",
+                    "email": "giovani@wgenial.com.br",
+                    "homepage": "http://www.wgenial.com.br"
+                }
+            ],
+            "description": "Converte numeral em valor por extenso.",
+            "keywords": [
+                "brasil",
+                "extenso",
+                "moeda",
+                "numero",
+                "real"
+            ],
+            "support": {
+                "issues": "https://github.com/wgenial/numeroporextenso/issues",
+                "source": "https://github.com/wgenial/numeroporextenso"
+            },
+            "time": "2021-09-12T22:07:08+00:00"
         }
     ],
     "packages-dev": [
