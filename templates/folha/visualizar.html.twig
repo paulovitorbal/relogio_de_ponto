@@ -70,6 +70,28 @@
             margin-left: 20px;
             margin-bottom: 10px;
         }
+        .signature-container {
+            width: 50%;
+            margin: 0 auto; /* Center the container */
+        }
+
+        .signature-line {
+            border-bottom: 2px solid #000; /* Black solid line */
+            margin-top: 20px; /* Adjust the margin as needed */
+            padding-bottom: 10px; /* Adjust the padding as needed */
+        }
+
+        .signature-label {
+            margin-top: 5px; /* Adjust the margin as needed */
+        }
+
+        @media print {
+            .signature-line {
+                border-bottom: 1px solid #000; /* Adjust the line thickness for printing */
+                margin-top: 10px; /* Adjust the margin for printing */
+                padding-bottom: 5px; /* Adjust the padding for printing */
+            }
+        }
     </style>
 <div>
     <div class="print">
@@ -125,5 +147,18 @@
             <input type="submit" value="Adicionar registro">
         </form>
     </div>
+
+    <br />
+    <br />
+    <br />
+    <div class="signature-container">
+
+        <div class="signature-line"></div>
+        <div class="signature-label">{{ funcionario.nome}}</div>
+    </div>
+    <br />
+    <p>
+        Bras&iacute;lia, {{ "now"|date("d") }} de {{ "now"|date("F")|trans({}, 'messages', 'pt_BR') }} de {{ "now"|date("Y") }}
+    </p>
 </div>
 {% endblock %}
