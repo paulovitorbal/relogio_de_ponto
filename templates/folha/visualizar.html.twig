@@ -113,8 +113,8 @@
         {% for indice, dia in dias%}
             <tr>
                 <td>
-                    <div>{{ dia.data|date("d/m/Y") }}</div>
-                    <div>({{ dia.data|date("l")| trans({}, 'messages', 'pt_BR') }})</div>
+                    <span>{{ dia.data|date("d/m/Y") }}</span>
+                    <span>({{ dia.data|date("l")| trans({}, 'messages', 'pt_BR') }})</span>
                 </td>
                 {% for registro in dia.valores %}
 
