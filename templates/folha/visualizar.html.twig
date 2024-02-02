@@ -58,17 +58,22 @@
         }
 
         dl {
-            text-align: left;
-            margin-bottom: 20px;
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px; /* Adjust the gap between columns */
+            margin-bottom: 5px;
         }
 
         dt {
+            text-align: right;
             font-weight: bold;
         }
 
         dd {
-            margin-left: 20px;
-            margin-bottom: 10px;
+
+            text-align: left;
+            margin-left: 0; /* Reset the margin for description */
         }
         .signature-container {
             width: 50%;
@@ -140,7 +145,7 @@
         </tbody>
 
     </table>
-    <div class="no-print"><h3>Tempo total acumulado:{{ tempoTotal|minutos }}</h3></div>
+    <div><h3>Tempo total acumulado:{{ tempoTotal|minutos }}</h3></div>
     <div class="no-print">
         <form method="POST">
             <input type="datetime-local" value="{{ "now"|date("Y-m-d\\TH:i") }}" name="data" />
