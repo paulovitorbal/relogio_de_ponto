@@ -19,7 +19,6 @@ class ValeTransporteController extends AbstractController
     public function index(Request $request, EntityManagerInterface $entityManager, ValeTransporteRepository $repository, FuncionarioRepository $funcRepo): Response
     {
         $funcionario=$funcRepo->find(1);
-        dump($request->getPayload());
         if ($request->isMethod(Request::METHOD_POST)){
             [$ano, $mes] = explode("-", $request->get("mesAno"));
             $valor = $request->get("valor")*100;

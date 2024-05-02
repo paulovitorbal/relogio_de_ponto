@@ -22,9 +22,6 @@ class MinutosExtension extends AbstractExtension
                 }
                 $hours = floor($minutes / 60);
                 $remainingMinutes = $minutes % 60;
-                if($minutes<0){
-                    dump($minutes, $hours, $minutes);
-                }
                 return sprintf('%s%02d:%02d', $negative?'-': '', $hours, $remainingMinutes);
             }),
         ];

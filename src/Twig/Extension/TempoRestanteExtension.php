@@ -26,7 +26,6 @@ class TempoRestanteExtension extends AbstractExtension
         if ($somatorio>0 && count($valores)>1){
             return end($valores)->getDataRegistro()->add(\DateInterval::createFromDateString((8*60-$somatorio)." minutes"))->format("H:i");
         }
-        dump($somatorio);
         return "";
     }
 
