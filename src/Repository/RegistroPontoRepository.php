@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\DataObject\LinhaFolhaPonto;
+use App\DataObject\VisualizarMes;
 use App\Entity\RegistroPonto;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -21,6 +22,16 @@ class RegistroPontoRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, RegistroPonto::class);
+    }
+
+    public function getTempoTotalLinhas(LinhaFolhaPonto  ...$linhas): int
+    {
+        return array_reduce($linhas, static function (int $total, LinhaFolhaPonto $a) {
+            if (count($a->getValores()) % 2 == 1) {
+                return $total;
+            }
+            return ($total + $a->getTotal() - (8 * 60));
+        }, 0);
     }
 
     /**
@@ -42,7 +53,7 @@ class RegistroPontoRepository extends ServiceEntityRepository
         ;
     }
     /**
-     * @return RegistroPonto[] Returns an array of RegistroPonto objects
+     * @return LinhaFolhaPonto[] Returns an array of RegistroPonto objects
      */
     public function visualizarFolhaPontoMesAno(int $funcionario, int $ano, int $mes): array
     {
@@ -73,7 +84,7 @@ class RegistroPontoRepository extends ServiceEntityRepository
 
     }
     /**
-     * @return RegistroPonto[] Returns an array of RegistroPonto objects
+     * @return VisualizarMes[] Returns an array of RegistroPonto objects
      */
     public function listMeses(): array
     {
@@ -83,11 +94,31 @@ class RegistroPontoRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleColumnResult()
         ;
+
         $result = array_map(static function($e){
             $tmp = new \DateTimeImmutable($e);
-            return $tmp->format('Ym');
+            return $tmp->format('Y-m');
         }, $rows);
-        return array_unique($result);
+
+        $result = array_unique($result);
+        sort($result);
+        $total = 0;
+        $visualizarMeses = [];
+
+        foreach ($result as $e) {
+            $tmp = new \DateTimeImmutable($e);
+            $totalMes = $this->getTempoTotalLinhas(
+                ...$this->visualizarFolhaPontoMesAno(
+                1,
+                $tmp->format('Y'),
+                $tmp->format('m')
+            )
+            );
+            $total += $totalMes;
+            $visualizarMeses[] = new VisualizarMes($tmp, $totalMes, $total);
+        }
+
+        return $visualizarMeses;
     }
 
     /**

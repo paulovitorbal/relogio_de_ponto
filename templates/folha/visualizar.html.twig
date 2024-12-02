@@ -149,7 +149,13 @@
     <div class="no-print">
         <form method="POST">
             <input type="datetime-local" value="{{ "now"|date("Y-m-d\\TH:i") }}" name="data" />
-            <input type="submit" value="Adicionar registro">
+            <input type="submit" value="Adicionar registro" name="acao">
+        </form>
+    </div>
+    <div class="no-print">
+        <form method="POST">
+            <input type="date" value="{{ "now"|date("Y-m-d") }}" name="data" />
+            <input type="submit" value="Adicionar folga" name="acao">
         </form>
     </div>
 

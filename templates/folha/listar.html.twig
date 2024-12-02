@@ -38,16 +38,20 @@
         <tr>
             <th>Mês</th>
             <th>Ano</th>
+            <th>Total no mês</th>
+            <th>Total acumulado</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
         {% for folha in folhas %}
-        <tr>
-            <td>{{ folha|slice(4,2) }}</td>
-            <td>{{ folha|slice(0,4) }}</td>
-            <td><a href="{{ path('mostrar_folha', {ano:folha|slice(0,4), mes:folha|slice(4,2)}) }}">Visualizar</a></td>
-        </tr>
+            <tr>
+                <td>{{ folha.mes }}</td>
+                <td>{{ folha.ano }}</td>
+                <td>{{ folha.totalSegundosMes|minutos }}</td>
+                <td>{{ folha.totalAcumulado|minutos }}</td>
+                <td><a href="{{ path('mostrar_folha', {ano:folha.ano, mes:folha.mes}) }}">Visualizar</a></td>
+            </tr>
         {% endfor %}
         </tbody>
     </table>

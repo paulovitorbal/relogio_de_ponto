@@ -15,6 +15,7 @@ class Feriados
         '20241012' => '12 de outubro: Nossa Senhora Aparecida (feriado nacional);',
         '20241102' => '2 de novembro: Finados (feriado nacional);',
         '20241115' => '15 de novembro: Proclamação da República (feriado nacional);',
+        '20241120' => '20 de novembro: Dia da consciência negra (feriado nacional);',
         '20241130' => '30 de novembro: Dia do Evangélico (feriado local);',
         '20241225' => '25 de dezembro: Natal (feriado nacional).',
         ];

@@ -45,26 +45,20 @@ class FolhaController extends AbstractController
     ): Response
     {
         if ($request->isMethod(Request::METHOD_POST)){
-
-            $registro = new RegistroPonto();
-            $registro->setDataRegistro(\DateTimeImmutable::createFromFormat('Y-m-d\\TH:i', $request->get('data')));
-            $registro->setTipo(TipoRegistro::INSERCAO);
-            $registro->setFuncionario(1);
-
-            $entityManager->persist($registro);
-            $entityManager->flush();
-            $this->addFlash(
-                'notice',
-                'Registro salvo!'
-            );
+            switch ($request->get('acao')){
+                case 'Adicionar registro':
+                    $this->inserirRegistroPonto($request->get('data'), $entityManager);
+                    break;
+                case 'Adicionar folga':
+                    $this->inserirRegistroPonto($request->get('data')."T08:00", $entityManager);
+                    $this->inserirRegistroPonto($request->get('data')."T08:00", $entityManager);
+                    $this->inserirRegistroPonto($request->get('data')."T08:00", $entityManager);
+                    $this->inserirRegistroPonto($request->get('data')."T08:00", $entityManager);
+                    break;
+            }
         }
         $dias = $repository->visualizarFolhaPontoMesAno(1, $ano, $mes);
-        $tempoTotal = array_reduce($dias, static function (int $total, LinhaFolhaPonto $a) {
-            if (count($a->getValores())%2 == 1){
-                return $total;
-            }
-            return ($total + $a->getTotal()-(8*60));
-        }, 0);
+        $tempoTotal = $repository->getTempoTotalLinhas(...$dias);
         return $this->render('folha/visualizar.html.twig', [
             'mes'=>$mes,
             'ano'=>$ano,
@@ -74,4 +68,20 @@ class FolhaController extends AbstractController
             'empregador'=>$empregador
         ]);
     }
+
+    private function inserirRegistroPonto(string $data, EntityManagerInterface $entityManager): void
+    {
+        $registro = new RegistroPonto();
+        $registro->setDataRegistro(\DateTimeImmutable::createFromFormat('Y-m-d\\TH:i', $data));
+        $registro->setTipo(TipoRegistro::INSERCAO);
+        $registro->setFuncionario(1);
+
+        $entityManager->persist($registro);
+        $entityManager->flush();
+        $this->addFlash(
+            'notice',
+            'Registro salvo!'
+        );
+    }
+
 }
