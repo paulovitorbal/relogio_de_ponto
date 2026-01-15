@@ -32,18 +32,14 @@ class TempoRestanteExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('tempoRestante', function($valores){
-                return self::tempoRestante($valores);
-            }),
+            new TwigFilter('tempoRestante', [TempoRestanteExtension::class, 'tempoRestante']),
         ];
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('tempoRestante', function($valores){
-                return self::tempoRestante($valores);
-            }),
+            new TwigFunction('tempoRestante', [TempoRestanteExtension::class, 'tempoRestante']),
         ];
     }
 }

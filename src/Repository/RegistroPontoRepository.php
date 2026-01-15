@@ -37,7 +37,7 @@ class RegistroPontoRepository extends ServiceEntityRepository
     /**
      * @return RegistroPonto[] Returns an array of RegistroPonto objects
      */
-    public function findByFuncionario($value): array
+    public function findByFuncionario($value, int $maxResults = 10): array
     {
         $fromDate = new \DateTimeImmutable('now');
         $fromDate = $fromDate->setTime(0, 0);
@@ -47,7 +47,7 @@ class RegistroPontoRepository extends ServiceEntityRepository
             ->andWhere('r.data_registro >= :fromDate')->setParameter('fromDate', $fromDate)
             ->andWhere('r.data_registro <= :toDate')->setParameter('toDate', $toDate)
             ->orderBy('r.data_registro', 'ASC')
-            ->setMaxResults(10)
+            ->setMaxResults($maxResults)
             ->getQuery()
             ->getResult()
         ;
