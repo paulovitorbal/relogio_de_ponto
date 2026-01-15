@@ -37,6 +37,7 @@ class Alarm extends Command
             return Command::FAILURE;
         }
         $tempoTotal=$this->repository->tempoTotal($registros,$date->setTime($date->format('H'), $date->format('i')));
+        $output->writeln("Tempo total: ".$tempoTotal);
         switch ($tempoTotal) {
             case 15: $output->writeln("faltam 15 minutos");break;
             case 10: $output->writeln("faltam 10 minutos");break;
