@@ -39,12 +39,16 @@ class Alarm extends Command
         $tempoTotal=(8*60)-$this->repository->tempoTotal($registros,$date->setTime($date->format('H'), $date->format('i')));
         $output->writeln("Tempo total: ".$tempoTotal);
         switch ($tempoTotal) {
-            case 15: $output->writeln("faltam 15 minutos");break;
-            case 10: $output->writeln("faltam 10 minutos");break;
+            case 15: $output->writeln("faltam 15 minutos");$this->beep();break;
+            case 10: $output->writeln("faltam 10 minutos");$this->beep();break;
             case $tempoTotal < 5 && $tempoTotal > 0:
-            case 5: $output->writeln("faltam 5 minutos");break;
-            case $tempoTotal < 0 && $tempoTotal > -10: $output->writeln("tempo esgotado");;
+            case 5: $output->writeln("faltam 5 minutos");$this->beep();break;
+            case $tempoTotal < 0 && $tempoTotal > -10: $output->writeln("tempo esgotado");$this->beep();
         }
         return Command::SUCCESS;
+    }
+    private function beep():void
+    {
+        file_get_contents("http://192.168.1.140/alarm");
     }
 }
