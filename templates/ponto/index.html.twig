@@ -78,6 +78,7 @@
     {% endfor %}
     <div id="timeDisplay"><span id="currentDateTime"></span></div>
     <div id="timeDisplay">Tempo total (até {{ agora.format('H:i') }}): {{ tempoTotalDia|minutos }}</span></div>
+    <div id="timeDisplay" style="font-weight: bolder"><span id="tempoSaida"></span></div>
     <form method="POST">
         <button id="registerButton" type="submit">Registrar Entrada</button>
     </form>
@@ -105,10 +106,54 @@
             var formattedTime = hours + ":" + (minutes < 10 ? "0" : "") + minutes;
 
             currentDateTimeElement.innerHTML = formattedDate + " " + formattedTime;
+
+            const elements = document.getElementsByClassName('hoje');
+            const timestamps = Array.from(elements).map(elemento => {
+                // Acessa o atributo data-seconds e converte para Inteiro
+                return parseInt(elemento.dataset.seconds, 10);
+            });
+            const resultado = calcularHorarioSaida(timestamps)
+            const dataSaida = new Date(resultado * 1000);
+            const tempoSaida = document.getElementById("tempoSaida");
+            tempoSaida.innerHTML = dataSaida.toLocaleTimeString('pt-BR');
         }
         function sumirNotificacao(){
             document.getElementById('notification').style.display="none";
         }
+
+        function calcularHorarioSaida(timestamps) {
+            // 1. Garante que os timestamps estão em ordem cronológica
+            // (Passo opcional se sua fonte de dados já garante a ordem)
+            const sortedTimes = [...timestamps].sort((a, b) => a - b);
+
+            // 2. Verifica se o ponto está fechado (número par de elementos)
+            if (sortedTimes.length % 2 === 0) {
+                return null; // O funcionário não está trabalhando no momento
+            }
+
+            // Definição de 8 horas em segundos
+            const jornadaSegundos = 8 * 60 * 60; // 28800 segundos
+
+            let segundosTrabalhados = 0;
+
+            // 3. Itera sobre os pares FECHADOS (entrada e saída anteriores)
+            // O loop vai até o penúltimo elemento
+            for (let i = 0; i < sortedTimes.length - 1; i += 2) {
+                const entrada = sortedTimes[i];
+                const saida = sortedTimes[i + 1];
+                segundosTrabalhados += (saida - entrada);
+            }
+
+            // 4. Calcula quanto falta para completar 8 horas
+            const segundosRestantes = jornadaSegundos - segundosTrabalhados;
+
+            // 5. Pega o último registro (a entrada atual em aberto)
+            const ultimaEntrada = sortedTimes[sortedTimes.length - 1];
+
+            // 6. O horário de saída é a última entrada + o que falta
+            return ultimaEntrada + segundosRestantes;
+        }
+
         // Update time initially and set interval to update every second
         updateCurrentDateTime();
         setInterval(updateCurrentDateTime, 1000);
@@ -117,6 +162,7 @@
     <table>
         <tbody>
         {% set sum = 0 %}
+        {% set lastDay = dias|length %}
         {% for indice, dia in dias%}
             <tr>
                 <td>
@@ -124,10 +170,15 @@
                     <div>({{ dia.data|date("l")| trans({}, 'messages', 'pt_BR') }})</div>
                 </td>
                 {% for registro in dia.valores %}
-
-                    <td>
+                    {% if indice == lastDay-1 %}
+                    <td class="hoje" >
                         {{ registro.dataRegistro.format('H:i') }}
                     </td>
+                    {% else %}
+                        <td class="hoje" data-seconds="{{ registro.dataRegistro.format('U') }}">
+                            {{ registro.dataRegistro.format('H:i') }}
+                        </td>
+                    {% endif %}
                 {% endfor %}
 
 
