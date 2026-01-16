@@ -113,6 +113,10 @@
                 return parseInt(elemento.dataset.seconds, 10);
             });
             const resultado = calcularHorarioSaida(timestamps)
+            if (resultado == null){
+                const tempoSaida = document.getElementById("tempoSaida");
+                tempoSaida.innerHTML = "";
+            }
             const dataSaida = new Date(resultado * 1000);
             const tempoSaida = document.getElementById("tempoSaida");
             tempoSaida.innerHTML = dataSaida.toLocaleTimeString('pt-BR');
