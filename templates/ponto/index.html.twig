@@ -166,7 +166,6 @@
     <table>
         <tbody>
         {% set sum = 0 %}
-        {% set lastDay = dias|length %}
         {% for indice, dia in dias%}
             <tr>
                 <td>
@@ -174,7 +173,7 @@
                     <div>({{ dia.data|date("l")| trans({}, 'messages', 'pt_BR') }})</div>
                 </td>
                 {% for registro in dia.valores %}
-                    {% if indice == lastDay-1 %}
+                    {% if loop.last %}
                     <td class="hoje" >
                         {{ registro.dataRegistro.format('H:i') }}
                     </td>
