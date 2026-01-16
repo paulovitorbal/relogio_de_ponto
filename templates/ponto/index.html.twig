@@ -41,7 +41,7 @@
             margin: 50px;
         }
         #timeDisplay {
-            font-size: 24px;
+            font-size: 20px;
             margin-bottom: 20px;
         }
         #registerButton {
@@ -66,6 +66,17 @@
         dt + dd {
             margin-left: 10px;
         }
+        .pulse-button {
+            animation: pulse 1.5s infinite;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
     </style>
     <h1>Ponto eletrônico</h1>
     {# read and display all flash messages #}
@@ -78,7 +89,7 @@
     {% endfor %}
     <div id="timeDisplay"><span id="currentDateTime"></span></div>
     <div id="timeDisplay">Tempo total (até {{ agora.format('H:i') }}): {{ tempoTotalDia|minutos }}</span></div>
-    <div id="timeDisplay" style="font-weight: bolder"><span id="tempoSaida"></span></div>
+    <div class="pulse-button" style="font-weight: bolder"><span id="tempoSaida" ></span></div>
     <form method="POST">
         <button id="registerButton" type="submit">Registrar Entrada</button>
     </form>
