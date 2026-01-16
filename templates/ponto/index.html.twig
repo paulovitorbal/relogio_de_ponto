@@ -172,17 +172,22 @@
                     <div>{{ dia.data|date("d/m/Y") }}</div>
                     <div>({{ dia.data|date("l")| trans({}, 'messages', 'pt_BR') }})</div>
                 </td>
-                {% for registro in dia.valores %}
-                    {% if loop.last %}
-                    <td class="hoje" >
-                        {{ registro.dataRegistro.format('H:i') }}
-                    </td>
-                    {% else %}
+                {% if loop.last %}
+                    {% for registro in dia.valores %}
+                        <td class="hoje" data-seconds="{{ registro.dataRegistro.format('U') }}">
+                            {{ registro.dataRegistro.format('H:i') }}
+                        </td>
+                    {% endfor %}
+                {% else %}
+                    {% for registro in dia.valores %}
                         <td>
                             {{ registro.dataRegistro.format('H:i') }}
                         </td>
-                    {% endif %}
-                {% endfor %}
+                    {% endfor %}
+
+                {% endif %}
+
+
 
 
                 {% if dia.valores|  length %2 == 0 %}
